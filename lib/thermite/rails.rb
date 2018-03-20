@@ -1,4 +1,6 @@
-require "thermite/rails/version"
+# frozen_string_literal: true
+
+require 'thermite/rails/version'
 
 module Thermite
   module Rails
