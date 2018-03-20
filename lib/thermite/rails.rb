@@ -1,9 +1,23 @@
 # frozen_string_literal: true
 
-require 'thermite/rails/version'
+require_relative 'rails/version'
+require_relative 'rails/railtie'
 
 module Thermite
   module Rails
-    # Your code goes here...
+    def self.find_root(root_path)
+      root = File.expand_path(root_path)
+
+      dir = root
+
+      loop do
+        return dir if yield(dir)
+
+        new_dir = File.dirname(dir)
+        raise "Unable to find root for #{root}" if new_dir == dir
+
+        dir = new_dir
+      end
+    end
   end
 end
