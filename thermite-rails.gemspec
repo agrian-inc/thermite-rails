@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Use thermite gems in Rails.'
   spec.description   = spec.summary
   spec.homepage      = 'https://bitbucket.org/agrian/thermite-rails'
+  spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -32,13 +33,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'colorize'
-  spec.add_dependency 'rake', '>= 10.0'
   spec.add_dependency 'rails', '>= 5.0'
-  spec.add_dependency 'tomlrb', '~> 1.2'
+  spec.add_dependency 'rake', '>= 10.0'
   spec.add_dependency 'thermite', '~> 0.13'
+  spec.add_dependency 'tomlrb', '~> 1.2'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rake', '>= 10.0'
+  spec.add_development_dependency 'rspec-rails', '~> 3.0'
   spec.add_development_dependency 'rubocop'
 end

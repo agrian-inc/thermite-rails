@@ -57,11 +57,11 @@ module Thermite
         end
       end
 
-#       def remove_old_binary
-#         color_puts('Removing old Rust binary...', :blue)
+      #       def remove_old_binary
+      #         color_puts('Removing old Rust binary...', :blue)
 
-#         FileUtils.rm_f("#{@project_path}/lib/*.so")
-#       end
+      #         FileUtils.rm_f("#{@project_path}/lib/*.so")
+      #       end
     end
   end
 end
