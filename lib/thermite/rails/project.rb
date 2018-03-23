@@ -1,81 +1,61 @@
 # frozen_string_literal: true
 
-require 'colorized_string'
 require 'tomlrb'
 
 module Thermite
   module Rails
-    # A crate that contains both Rust and Ruby code.
+    # A "project" is a crate that contains both Rust and Ruby code. Usually one
+    # of these will live at [rails root]/crates/[project].
     class Project
-      def initialize(root_path)
-        @root_path = find_root(root_path)
-        puts "Project@root_path: #{@root_path}"
+      attr_reader :project_path
+
+      # @param project_path [String]
+      def initialize(project_path)
+        @project_path = find_project(project_path)
       end
 
+      # @return [String] Path to the project's Cargo.toml file.
+      def cargo_toml_path
+        "#{@project_path}/Cargo.toml"
+      end
+
+      # @return [String] "package.name" from the crate's Cargo.toml file.
       def crate_name
         @crate_name ||= Tomlrb.load_file(cargo_toml_path)['package']['name']
       end
 
-      def build
-        Dir.chdir(@root_path) do
-          load_rakefile do
-            remove_old_binary
-            run_thermite_build
+      # Runs `cargo test` then builds the release binary, then runs `rake test`.
+      #
+      # TODO: Should this be left to the crate to define their own :test task
+      # (so they can define their prereqs)?
+      def all_test
+        load_and do
+          run_task('thermite:test') # cargo test first since it's the fastest way to feedback.
+          run_task('thermite:build') # build the binary so Ruby code is using the latest in its tests.
+
+          if defined?(::RSpec)
+            Rake::Task["thermite:spec:#{crate_name.underscore}"].invoke
+          else
+            run_task('test') # Run ruby tests
           end
         end
       end
 
-      def clean
-        Dir.chdir(@root_path) do
-          load_rakefile do
-            remove_old_binary
-            run_thermite_clean
-          end
-        end
+      # @return [Boolean] Does this project have `[project root]/spec/`?
+      def specs?
+        File.exist?(spec_path)
+      end
+
+      # @return [String] Path to `[project root]/spec/`.
+      def spec_path
+        "#{@project_path}/spec"
       end
 
       private
 
-      def find_root(root_path)
-        Thermite::Rails.find_root(root_path) do |dir|
+      def find_project(project_path)
+        Thermite::Rails.find_root(project_path) do |dir|
           File.exist?("#{dir}/Cargo.toml")
-        end
-      end
-
-      def cargo_toml_path
-        "#{@root_path}/Cargo.toml"
-      end
-
-      def load_rakefile
-        load 'Rakefile'
-        yield
-      rescue LoadError => ex
-        puts ColorizedString["Skipping due to LoadError: #{ex.message}"].colorize(:red)
-      end
-
-      def remove_old_binary
-        puts ColorizedString['Removing old Rust binary...'].colorize(:blue)
-
-        FileUtils.rm_f("#{@root_path}/lib/*.so")
-      end
-
-      def run_thermite_build
-        run_thermite_task('thermite:build')
-      end
-
-      def run_thermite_clean
-        run_thermite_task('thermite:clean')
-      end
-
-      def run_thermite_task(task_name)
-        Rake::Task[task_name].invoke
-      rescue RuntimeError => ex
-        puts ex
-        if ex.message.match?("Don't know how to build task '#{task_name}'")
-          # puts ColorizedString["#{crate_name} isn't using thermite; trying `rake build`..."].colorize(:yellow)
-          # Rake::Task['build'].invoke
-        else
-          abort ex.message
         end
       end
     end

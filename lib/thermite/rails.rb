@@ -19,5 +19,10 @@ module Thermite
         dir = new_dir
       end
     end
+
+    def self.root_project
+      require_relative 'rails/root_project'
+      @root_project ||= Thermite::Rails::RootProject.new(Dir.pwd)
+    end
   end
 end

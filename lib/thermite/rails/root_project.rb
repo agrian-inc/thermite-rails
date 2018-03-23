@@ -5,21 +5,26 @@ require_relative 'project'
 module Thermite
   module Rails
     class RootProject
-      def initialize(root_path)
-        @root_path = find_root(root_path)
-        puts "RootProject@root_path: #{@root_path}"
+      attr_reader :path
+
+      def initialize(path)
+        @path = find_root(path)
       end
 
       def projects
-        @projects ||= Dir["#{@root_path}/crates/*"].
+        @projects ||= Dir["#{@path}/crates/*"].
                       find_all { |f| File.exist?("#{f}/Cargo.toml") }.
                       map { |d| Thermite::Rails::Project.new(d) }
       end
 
+      def projects_with_specs
+        projects.find_all(&:specs?)
+      end
+
       private
 
-      def find_root(root_path)
-        Thermite::Rails.find_root(root_path) do |dir|
+      def find_root(path)
+        Thermite::Rails.find_root(path) do |dir|
           !Dir["#{dir}/{Gemfile,*.gemspec}"].empty?
         end
       end
