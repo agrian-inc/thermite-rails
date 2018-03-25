@@ -2,10 +2,10 @@ PATH
   remote: .
   specs:
     thermite-rails (0.1.0)
-      colorize
       rails (>= 5.0)
       rake (>= 10.0)
       thermite (~> 0.13)
+      thor
       tomlrb (~> 1.2)
 
 GEM
@@ -51,7 +51,6 @@ GEM
     arel (8.0.0)
     ast (2.4.0)
     builder (3.2.3)
-    colorize (0.8.1)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     diff-lcs (1.3)

@@ -32,10 +32,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'colorize'
   spec.add_dependency 'rails', '>= 5.0'
   spec.add_dependency 'rake', '>= 10.0'
   spec.add_dependency 'thermite', '~> 0.13'
+  spec.add_dependency 'thor'
   spec.add_dependency 'tomlrb', '~> 1.2'
 
   spec.add_development_dependency 'bundler', '~> 1.16'

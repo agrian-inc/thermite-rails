@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rake/tasklib'
-require 'colorized_string'
+require 'thor/shell/color'
 
 module Thermite
   module Rails
@@ -10,6 +10,7 @@ module Thermite
 
       def initialize(project)
         @project = project
+        @shell = Thor::Shell::Color.new
       end
 
       def crate_name_for_ruby
@@ -24,8 +25,8 @@ module Thermite
         raise 'Define in child'
       end
 
-      def color_puts(message, color)
-        puts ColorizedString["[#{crate_name}] #{message}"].colorize(color)
+      def color_puts(message, color = :blue)
+        @shell.say "[#{crate_name}] #{message}", color
       end
 
       private

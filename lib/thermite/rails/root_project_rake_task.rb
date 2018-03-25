@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require 'colorized_string'
 require 'rake/tasklib'
-require_relative 'root_project'
 
 module Thermite
   module Rails
-    class RootProjectRakeTask < Rake::TaskLib
+    class RootProjectRakeTask < ::Rake::TaskLib
       def initialize
         @root_project = Thermite::Rails.root_project
       end
