@@ -2,7 +2,7 @@
 
 require 'thermite/cargo'
 require 'thermite/config'
-require_relative 'project'
+require_relative '../project'
 
 module Thermite
   module Rails

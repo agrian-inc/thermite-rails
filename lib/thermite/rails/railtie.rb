@@ -16,7 +16,7 @@ module Thermite
       end
 
       generators do
-        require_relative 'crate_generator'
+        require_relative 'generators/crate_generator'
       end
     end
   end
