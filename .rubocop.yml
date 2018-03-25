@@ -19,9 +19,6 @@ Metrics/LineLength:
 Rails:
   Enabled: true
 
-Rails/Output:
-  Enabled: false
-
 Style/Documentation:
   Enabled: false
 

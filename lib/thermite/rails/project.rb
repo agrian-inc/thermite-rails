@@ -24,23 +24,6 @@ module Thermite
         @crate_name ||= Tomlrb.load_file(cargo_toml_path)['package']['name']
       end
 
-      # Runs `cargo test` then builds the release binary, then runs `rake test`.
-      #
-      # TODO: Should this be left to the crate to define their own :test task
-      # (so they can define their prereqs)?
-      def all_test
-        load_and do
-          run_task('thermite:test') # cargo test first since it's the fastest way to feedback.
-          run_task('thermite:build') # build the binary so Ruby code is using the latest in its tests.
-
-          if defined?(::RSpec)
-            Rake::Task["thermite:spec:#{crate_name.underscore}"].invoke
-          else
-            run_task('test') # Run ruby tests
-          end
-        end
-      end
-
       # @return [Boolean] Does this project have `[project root]/spec/`?
       def specs?
         File.exist?(spec_path)

@@ -14,6 +14,10 @@ module Thermite
 
         load File.expand_path(File.join('tasks', 'thermite.rake'), __dir__)
       end
+
+      generators do
+        require_relative 'crate_generator'
+      end
     end
   end
 end

@@ -22,3 +22,5 @@ spec/dummy/tmp/
 .tags
 
 Gemfile.lock
+
+spec/dummy/crates/mkmf.log
