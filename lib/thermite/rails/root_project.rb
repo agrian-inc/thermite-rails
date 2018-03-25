@@ -14,7 +14,9 @@ module Thermite
       def projects
         @projects ||= Dir["#{@path}/crates/*"].
                       find_all { |f| File.exist?("#{f}/Cargo.toml") }.
-                      map { |d| Thermite::Rails::Project.new(d) }
+                      find_all { |f| File.exist?("#{f}/Cargo.toml") }.
+                      map { |d| Thermite::Rails::Project.new(d) }.
+                      find_all(&:thermite?)
       end
 
       def projects_with_specs

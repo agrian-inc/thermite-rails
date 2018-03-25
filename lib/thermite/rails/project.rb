@@ -19,6 +19,11 @@ module Thermite
         "#{@project_path}/Cargo.toml"
       end
 
+      # @return [String] Path to the project's Cargo.toml file.
+      def gemspec_path
+        "#{@project_path}/#{crate_name}.gemspec"
+      end
+
       # @return [String] "package.name" from the crate's Cargo.toml file.
       def crate_name
         @crate_name ||= Tomlrb.load_file(cargo_toml_path)['package']['name']
@@ -32,6 +37,10 @@ module Thermite
       # @return [String] Path to `[project root]/spec/`.
       def spec_path
         "#{@project_path}/spec"
+      end
+
+      def thermite?
+        File.read(gemspec_path).include? 'thermite'
       end
 
       private
