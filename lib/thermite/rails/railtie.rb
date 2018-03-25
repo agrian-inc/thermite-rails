@@ -19,6 +19,8 @@ module Thermite
 
       generators do
         require_relative 'generators/crate_generator'
+        require_relative 'generators/install_generator'
+      end
 
       initializer 'thermite.build_check' do |app|
         project = Thermite::Rails::RootProject.new(app.root)

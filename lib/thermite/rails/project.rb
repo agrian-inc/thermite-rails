@@ -10,7 +10,10 @@ module Thermite
     class Project
       class OutdatedBuildError < StandardError
         def initialize(name)
-          super("\n\nThermite crate '#{name}' is outdated. To resolve this issue, run `rake thermite:build:#{name}` and restart your server.\n\n")
+          msg = "\n\nThermite crate '#{name}' is outdated. To resolve this issue, " \
+            "run `rake thermite:build:#{name}` and restart your server.\n\n"
+
+          super(msg)
         end
       end
 
@@ -59,7 +62,7 @@ module Thermite
       end
 
       def ensure_built!
-        raise OutdatedBuildError.new(crate_name) if outdated_build?
+        raise OutdatedBuildError, crate_name if outdated_build?
       end
 
       private
