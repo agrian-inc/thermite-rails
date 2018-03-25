@@ -23,6 +23,14 @@ module Thermite
         projects.find_all(&:specs?)
       end
 
+      def ensure_built!
+        projects.each(&:ensure_built!)
+      end
+
+      def outdated_build?
+        projects.any?(&:outdated_build?)
+      end
+
       private
 
       def find_root(path)

@@ -1,17 +1,25 @@
 # frozen_string_literal: true
 
 require 'tomlrb'
+require 'thermite/config'
 
 module Thermite
   module Rails
     # A "project" is a crate that contains both Rust and Ruby code. Usually one
     # of these will live at [rails root]/crates/[project].
     class Project
+      class OutdatedBuildError < StandardError
+        def initialize(name)
+          super("\n\nThermite crate '#{name}' is outdated. To resolve this issue, run `rake thermite:build:#{name}` and restart your server.\n\n")
+        end
+      end
+
       attr_reader :project_path
 
       # @param project_path [String]
       def initialize(project_path)
         @project_path = find_project(project_path)
+        @config = Thermite::Config.new(ruby_project_path: @project_path, cargo_project_path: @project_path)
       end
 
       # @return [String] Path to the project's Cargo.toml file.
@@ -41,6 +49,17 @@ module Thermite
 
       def thermite?
         File.read(gemspec_path).include? 'thermite'
+      end
+
+      def outdated_build?
+        mtime = Dir["#{@project_path}/src/**/*.rs"].map { |file| File.mtime(file) }.max
+        native = "#{@project_path}/lib/#{@config.shared_library}"
+
+        !File.exist?(native) || File.mtime(native) < mtime
+      end
+
+      def ensure_built!
+        raise OutdatedBuildError.new(crate_name) if outdated_build?
       end
 
       private
