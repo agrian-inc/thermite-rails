@@ -12,6 +12,7 @@ require_relative 'project_rake_task'
 module Thermite
   module Rails
     class ProjectSpecTask < ProjectRakeTask
+      # @return [String]
       def task_name
         "spec:crates:#{crate_name_for_ruby}"
       end

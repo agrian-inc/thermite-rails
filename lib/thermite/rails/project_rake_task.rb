@@ -8,15 +8,18 @@ module Thermite
     class ProjectRakeTask < ::Rake::TaskLib
       delegate :crate_name, :project_path, to: :@project
 
+      # @param project [Thermite::Rails::Project]
       def initialize(project)
         @project = project
         @shell = Thor::Shell::Color.new
       end
 
+      # @param [String]
       def crate_name_for_ruby
         crate_name.underscore
       end
 
+      # @param [String]
       def task_name
         raise 'Define in child'
       end
@@ -25,6 +28,8 @@ module Thermite
         raise 'Define in child'
       end
 
+      # @param message [String]
+      # @param color Whatever is supported by highline.
       def color_puts(message, color = :blue)
         @shell.say "[#{crate_name}] #{message}", color
       end
@@ -46,6 +51,7 @@ module Thermite
         color_puts("Skipping due to LoadError: #{ex.message}", :red)
       end
 
+      # @param task_name [String]
       def run_task(task_name)
         color_puts("Running task: #{task_name}", :blue)
 
@@ -57,12 +63,6 @@ module Thermite
           abort ex.message
         end
       end
-
-      #       def remove_old_binary
-      #         color_puts('Removing old Rust binary...', :blue)
-
-      #         FileUtils.rm_f("#{@project_path}/lib/*.so")
-      #       end
     end
   end
 end

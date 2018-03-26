@@ -9,10 +9,12 @@ module Thermite
         @root_project = Thermite::Rails.root_project
       end
 
+      # @return [String]
       def task_name
         raise 'Define in child'
       end
 
+      # @return [Class]
       def project_task_class
         raise 'Define in child'
       end
@@ -31,6 +33,7 @@ module Thermite
         project_tasks.map(&:task_name)
       end
 
+      # @return [Array<Class>]
       def project_tasks
         @project_tasks ||= @root_project.projects.map do |project|
           project_task_class.new(project)

@@ -3,6 +3,7 @@
 module Thermite
   module Rails
     class ProjectThermiteTestTask < ProjectRakeTask
+      # @return [String]
       def task_name
         "thermite:test:#{crate_name_for_ruby}"
       end

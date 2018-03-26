@@ -9,6 +9,7 @@ module Thermite
     # of these will live at [rails root]/crates/[project].
     class Project
       class OutdatedBuildError < StandardError
+        # @param name [String] The crate name.
         def initialize(name)
           msg = "\n\nThermite crate '#{name}' is outdated. To resolve this issue, " \
             "run `rake thermite:build:#{name}` and restart your server.\n\n"
@@ -50,10 +51,12 @@ module Thermite
         "#{@project_path}/spec"
       end
 
+      # @return [Boolean] Does this project use thermite?
       def thermite?
         File.read(gemspec_path).include? 'thermite'
       end
 
+      # @return [Boolean] Has the crate been updated since it was last built?
       def outdated_build?
         mtime = Dir["#{@project_path}/src/**/*.rs"].map { |file| File.mtime(file) }.max
         native = "#{@project_path}/lib/#{@config.shared_library}"
@@ -61,12 +64,14 @@ module Thermite
         !File.exist?(native) || File.mtime(native) < mtime
       end
 
+      # Raise if the project is outdated.
       def ensure_built!
         raise OutdatedBuildError, crate_name if outdated_build?
       end
 
       private
 
+      # @param project_path [String]
       def find_project(project_path)
         Thermite::Rails.find_root(project_path) do |dir|
           File.exist?("#{dir}/Cargo.toml")

@@ -2,6 +2,7 @@
 
 module Thermite
   module Rails
+    # Rack middleware for ensuring projects have been built.
     class CheckOutdated
       def initialize(app, project)
         @app = app

@@ -3,6 +3,7 @@
 module Thermite
   module Rails
     class ProjectThermiteCleanTask < ProjectRakeTask
+      # @return [String]
       def task_name
         "thermite:clean:#{crate_name_for_ruby}"
       end
