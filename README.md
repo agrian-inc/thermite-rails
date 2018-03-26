@@ -8,6 +8,10 @@ First things first: much of this project was initially "borrowed" from
 [helix](http://usehelix.com/) and `helix-rails`, which are wonderful
 projects for getting Rust and Ruby working together--you should check them out.
 
+Specs |
+------|
+[![Build Status](http://teamcity-build.agrian.com/app/rest/builds/buildType%3Aid%3AGems_ThermiteRails_Specs/statusIcon?guest=1)](http://teamcity-build.agrian.com/viewType.html?buildTypeId=Gems_ThermiteRails_Specs)
+
 ## Usage
 
 ### Generators

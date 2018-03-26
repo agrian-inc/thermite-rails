@@ -5,6 +5,7 @@ require 'thor/shell/color'
 
 module Thermite
   module Rails
+    # Base class to be used for creating Rake tasks for individual Projects.
     class ProjectRakeTask < ::Rake::TaskLib
       delegate :crate_name, :project_path, to: :@project
 
@@ -24,6 +25,7 @@ module Thermite
         raise 'Define in child'
       end
 
+      # In your child class, this method should `define` the Rake task.
       def define_rake_task
         raise 'Define in child'
       end
