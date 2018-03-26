@@ -84,6 +84,10 @@ module Thermite
         end
       end
 
+      def fix_rubocops
+        run "bundle exec rubocop -a #{project_full_path}" if File.read('Gemfile').include?('rubocop')
+      end
+
       def update_rails_gemfile
         gem name, path: "crates/#{name}"
       end
