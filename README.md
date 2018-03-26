@@ -1,10 +1,85 @@
-# Thermite::Rails
+# thermite-rails
 
-Short description and motivation.
+Integrate your Rust+Ruby [thermite](https://github.com/malept/thermite) projects
+into Rails. Like [helix-rails](https://github.com/tildeio/helix-rails), but for
+thermite.
+
+First things first: much of this project was initially "borrowed" from
+[helix](http://usehelix.com/) and `helix-rails`, which are wonderful
+projects for getting Rust and Ruby working together--you should check them out.
 
 ## Usage
 
-How to use my plugin.
+### Generators
+
+There are two Rails generators that get you doing Rust-y things in your Rails app.
+
+#### `thermite:install`
+
+This does one simple thing: adds a line to `config/environments/development.rb`
+that checks to see if your crates have been updated since the last time you
+built them; if any of them have been updated, you'll get an exception letting
+you know.
+
+```bash
+$ rails generate thermite:install
+```
+
+...adds the following to `config/environments/development.rb`:
+
+```ruby
+config.thermite.outdated_error = :page_load
+```
+
+#### `thermite:crate [crate-name]`
+
+This generates a new Rust+Ruby project for you in `[Rails.root]/crates/[crate-name]`.
+The Rubygem part of the project is created using `bundle gem [crate-name]`; the
+Rust part of the project is created using `crate new [crate-name]`. Most of the
+basic stuff that `thermite` has you do for setting up is done for you.
+
+One main difference from `thermite`'s instructions, however, is that it does
+not set up the same `test` Rake task that `thermite` says to. This is because
+`thermite-rails` defines its own set of tasks for you. You can, of course,
+override those if you need to.
+
+Lastly, it also:
+
+* makes the crate `publish = false` so you don't accidentally publish it to
+  `crates.io`.
+* sets `crate-type = ["cdylib"]`, assuming you'll use something like
+  [ruru](https://github.com/d-unseductable/ruru) +
+  [fiddle](https://github.com/ruby/fiddle) for initializing your Rust+Ruby.
+
+### Rake Tasks
+
+`thermite-rails` defines a task for building, cleaning, and (cargo) testing
+a) all of your projects at once, b) each of your projects separately.
+
+* `thermite:build_all`, `thermite:build:[crate-name]` leverage `thermite`'s
+  `thermite:build` task.
+* `thermite:clean_all`, `thermite:clean:[crate-name]` leverage `thermite`'s
+  `thermite:clean` task.
+* `thermite:test_all`, `thermite:test:[crate-name]` leverage `thermite`'s
+  `thermite:test` task.
+
+If you have `rspec` in your stack, you'll also get `spec:crates` and
+`spec:crates:[crate-name]`, where the latter will ensure
+`thermite:build:[crate-name]` is run before (to make sure specs are run against
+the latest Rust code). If you want to run all tests (Rust and Ruby ones) when
+you run `rake spec`, add this to the `Rakefile` in the root of your Rails
+project:
+
+```ruby
+Rake::Task['spec'].enhance do
+  Rake::Task['spec:crates'].invoke
+end
+```
+
+Note that Rake tasks will only be available for crates in `crates/` that use
+`thermite`. You can add Rust-only crates under `crates/` (perhaps you want to
+keep your crates/projects slim and extract out some functionality?) or use
+[helix](http://usehelix.com/) along side `thermite`/`thermite-rails`.
 
 ## Installation
 
@@ -18,12 +93,13 @@ And then execute:
 
 ```bash
 $ bundle
+$ rails generate thermite:install
 ```
 
-Or install it yourself as:
+...then go add some crates/projects to your app:
 
 ```bash
-$ gem install thermite-rails
+$ rails generate thermite:crate new_fast_thingy
 ```
 
 ## Development
