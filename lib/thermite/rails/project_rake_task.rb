@@ -36,6 +36,21 @@ module Thermite
 
       private
 
+      # @param task_name [String]
+      def run_task(task_name)
+        color_puts("Running task: #{task_name}", :blue)
+
+        load_and do
+          Rake::Task[task_name].invoke
+        end
+      rescue RuntimeError => ex
+        if ex.message.match?("Don't know how to build task '#{task_name}'")
+          color_puts("#{ex.message}; skipping", :yellow)
+        else
+          abort ex.message
+        end
+      end
+
       def load_and
         Dir.chdir(project_path) do
           load_rakefile do
@@ -49,19 +64,6 @@ module Thermite
         yield
       rescue LoadError => ex
         color_puts("Skipping due to LoadError: #{ex.message}", :red)
-      end
-
-      # @param task_name [String]
-      def run_task(task_name)
-        color_puts("Running task: #{task_name}", :blue)
-
-        Rake::Task[task_name].invoke
-      rescue RuntimeError => ex
-        if ex.message.match?("Don't know how to build task '#{task_name}'")
-          color_puts("No Rake task '#{task_name}'; skipping", :yellow)
-        else
-          abort ex.message
-        end
       end
     end
   end

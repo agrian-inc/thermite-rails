@@ -10,9 +10,7 @@ module Thermite
 
       def define_rake_task
         desc "Using thermite, build crate #{crate_name}"
-        task(task_name) do
-          load_and { run_task('thermite:build') }
-        end
+        task(task_name) { run_task('thermite:build') }
       end
     end
   end
