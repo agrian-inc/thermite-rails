@@ -28,12 +28,21 @@ module Thermite
 
       # @return [String] Path to the project's Cargo.toml file.
       def cargo_toml_path
-        "#{@project_path}/Cargo.toml"
+        File.join(@project_path, 'Cargo.toml')
       end
 
       # @return [String] Path to the project's Cargo.toml file.
       def gemspec_path
-        "#{@project_path}/#{crate_name}.gemspec"
+        File.join(@project_path, "#{crate_name}.gemspec")
+      end
+
+      def rakefile_path
+        File.join(@project_path, 'Rakefile')
+      end
+
+      # @return [String] Path to `[project root]/spec/`.
+      def spec_path
+        File.join(@project_path, 'spec')
       end
 
       # @return [String] "package.name" from the crate's Cargo.toml file.
@@ -44,11 +53,6 @@ module Thermite
       # @return [Boolean] Does this project have `[project root]/spec/`?
       def specs?
         File.exist?(spec_path)
-      end
-
-      # @return [String] Path to `[project root]/spec/`.
-      def spec_path
-        "#{@project_path}/spec"
       end
 
       # @return [Boolean] Does this project use thermite?

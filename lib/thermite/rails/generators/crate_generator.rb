@@ -28,12 +28,12 @@ module Thermite
         @project_full_path ||= File.join(crates_full_path, name)
       end
 
-      def ext_full_path
-        @ext_full_path ||= File.join(project_full_path, 'ext')
+      def project
+        @project ||= Thermite::Rails::Project.new(project_full_path)
       end
 
-      def gemspec_full_path
-        @gemspec_full_path ||= File.join(project_full_path, "#{name}.gemspec")
+      def ext_full_path
+        @ext_full_path ||= File.join(project_full_path, 'ext')
       end
 
       def make_crates_dir
@@ -48,7 +48,7 @@ module Thermite
       end
 
       def add_thermite_to_gemspec
-        insert_into_file(gemspec_full_path, after: %(  spec.require_paths = ["lib"])) do
+        insert_into_file(project.gemspec_path, after: %(  spec.require_paths = ["lib"])) do
           lines = %(\n  spec.extensions << 'ext/Rakefile'\n\n)
           lines + %(  spec.add_runtime_dependency 'thermite', '~> 0')
         end
@@ -73,9 +73,7 @@ module Thermite
       end
 
       def update_crate_rakefile
-        rakefile_path = File.join(project_full_path, 'Rakefile')
-
-        append_to_file rakefile_path do
+        append_to_file(project.rakefile_path) do
           %(\nrequire 'thermite/tasks'\n\nThermite::Tasks.new)
         end
       end
