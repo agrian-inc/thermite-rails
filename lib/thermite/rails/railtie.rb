@@ -10,11 +10,8 @@ module Thermite
       config.thermite = ActiveSupport::OrderedOptions.new
 
       rake_tasks do
-        if ::Rails.env.development? && defined?(::RSpec)
-          load File.expand_path(File.join('tasks', 'rspec.rake'), __dir__)
-        end
-
         load File.expand_path(File.join('tasks', 'thermite.rake'), __dir__)
+        load File.expand_path(File.join('tasks', 'rspec.rake'), __dir__) if defined?(::RSpec)
       end
 
       generators do
