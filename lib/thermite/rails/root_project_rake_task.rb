@@ -4,6 +4,8 @@ require 'rake/tasklib'
 
 module Thermite
   module Rails
+    # This is intended as a base class for defining other Rake tasks at the
+    # Rails/root project level (as opposed to the crate/project level).
     class RootProjectRakeTask < ::Rake::TaskLib
       def initialize
         @root_project = Thermite::Rails.root_project
@@ -19,11 +21,27 @@ module Thermite
         raise 'Define in child'
       end
 
-      def define_rake_task
-        desc
-        task task_name => project_task_names
+      # Text the task should list for its `desc`.
+      #
+      # @return [String]
+      def desc_text
+        raise 'Define in child'
       end
 
+      # Method that does the standard Rake task DSL calls for defining the task.
+      def define_rake_task
+        desc(desc_text)
+        task task_name => prerequisite_tasks
+      end
+
+      # A list of all of the tasks this take should run.
+      #
+      # @return [Array<String>]
+      def prerequisite_tasks
+        project_task_names
+      end
+
+      # Iterates through each project task and calls `#define_rake_task`.
       def define_project_rake_tasks
         project_tasks.each(&:define_rake_task)
       end

@@ -20,8 +20,8 @@ module Thermite
         NAME
       end
 
-      def desc
-        super(DESC)
+      def desc_text
+        DESC
       end
 
       def project_task_class
