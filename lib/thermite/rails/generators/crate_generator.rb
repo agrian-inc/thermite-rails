@@ -47,6 +47,12 @@ module Thermite
         end
       end
 
+      def update_cargo_toml
+        gsub_file(project.cargo_toml_path, "\n[dependencies]") do
+          %(publish = false\n\n[lib]\ncrate-type = ["cdylib"]\n\n[dependencies])
+        end
+      end
+
       def add_thermite_to_gemspec
         insert_into_file(project.gemspec_path, after: %(  spec.require_paths = ["lib"])) do
           lines = %(\n  spec.extensions << 'ext/Rakefile'\n\n)

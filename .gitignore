@@ -28,3 +28,5 @@ spec/dummy/crates/mkmf.log
 # Rust things
 spec/dummy/crates/*/mkmf.log
 spec/dummy/crates/*/target/*
+
+*.so

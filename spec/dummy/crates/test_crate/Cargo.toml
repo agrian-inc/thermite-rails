@@ -2,5 +2,9 @@
 name = "test_crate"
 version = "0.1.0"
 authors = ["Steve Loveless <steve@agrian.com>"]
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
