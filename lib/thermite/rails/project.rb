@@ -57,6 +57,8 @@ module Thermite
 
       # @return [Boolean] Does this project use thermite?
       def thermite?
+        return false unless File.exist?(gemspec_path)
+
         File.read(gemspec_path).include? 'thermite'
       end
 

@@ -22,7 +22,7 @@ module Thermite
 
     def self.root_project
       require_relative 'rails/root_project'
-      @root_project ||= Thermite::Rails::RootProject.new(Dir.pwd)
+      @root_project ||= Thermite::Rails::RootProject.new(::Rails.root.to_s)
     end
   end
 end
