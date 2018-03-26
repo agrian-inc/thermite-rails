@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'project_rake_task'
+
 module Thermite
   module Rails
     class ProjectThermiteBuildTask < ProjectRakeTask

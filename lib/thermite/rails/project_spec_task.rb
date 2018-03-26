@@ -18,8 +18,11 @@ module Thermite
       end
 
       def define_rake_task
+        prereqs = ["thermite:build:#{crate_name_for_ruby}"]
+        prereqs.push('spec:prepare') if Rake::Task.task_defined?('spec:prepare')
+
         desc "Run the code examples in #{crate_name}"
-        RSpec::Core::RakeTask.new(task_name => ["thermite:build:#{crate_name_for_ruby}", 'spec:prepare']) do |t|
+        RSpec::Core::RakeTask.new(task_name => prereqs) do |t|
           t.pattern = "#{@project.spec_path}/**/*_spec.rb"
         end
       end

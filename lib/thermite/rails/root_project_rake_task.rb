@@ -30,6 +30,8 @@ module Thermite
 
       # Method that does the standard Rake task DSL calls for defining the task.
       def define_rake_task
+        return if Rake::Task.task_defined?(task_name)
+
         desc(desc_text)
         task task_name => prerequisite_tasks
       end
@@ -54,8 +56,16 @@ module Thermite
       # @return [Array<Class>]
       def project_tasks
         @project_tasks ||= @root_project.projects.map do |project|
-          project_task_class.new(project)
+          p = project_task_class.new(project)
+          p.define_rake_task unless p.defined?
+
+          p
         end
+      end
+
+      # @return [Boolean] Has a task with this name already been defined?
+      def defined?
+        Rake::Task.task_defined?(task_name)
       end
     end
   end

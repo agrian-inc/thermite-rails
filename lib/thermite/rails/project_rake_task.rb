@@ -27,7 +27,14 @@ module Thermite
 
       # In your child class, this method should `define` the Rake task.
       def define_rake_task
+        return if Rake::Task.task_defined?(task_name)
+
         raise 'Define in child'
+      end
+
+      # @return [Boolean] Has a task with this name already been defined?
+      def defined?
+        Rake::Task.task_defined?(task_name)
       end
 
       # @param message [String]

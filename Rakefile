@@ -11,4 +11,5 @@ load 'rails/tasks/statistics.rake'
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new
+load 'spec/dummy/Rakefile'
+RSpec::Core::RakeTask.new spec: %w[thermite:test_all]
