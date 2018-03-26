@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+return unless defined?(::RSpec)
+
 projects_with_specs = Thermite::Rails.root_project.projects_with_specs
 
 return if projects_with_specs.empty?
