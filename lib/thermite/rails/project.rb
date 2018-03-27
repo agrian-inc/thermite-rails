@@ -18,7 +18,7 @@ module Thermite
         end
       end
 
-      attr_reader :project_path
+      attr_reader :project_path, :config
 
       # @param project_path [String]
       def initialize(project_path)
