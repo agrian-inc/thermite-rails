@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'thermite/rails/root_project_spec_task'
+require 'thermite/rails/tasks/root_project_spec_task'
 
-RSpec.describe Thermite::Rails::RootProjectSpecTask do
+RSpec.describe Thermite::Rails::Tasks::RootProjectSpecTask do
   describe '#task_name' do
     specify { expect(subject.task_name).to eq('spec:crates') }
   end
