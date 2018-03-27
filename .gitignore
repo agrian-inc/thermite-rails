@@ -9,3 +9,24 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Rails engine things
+log/*.log
+pkg/
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-journal
+spec/dummy/log/*.log
+spec/dummy/tmp/
+
+# tags
+.tags
+
+Gemfile.lock
+
+spec/dummy/crates/mkmf.log
+
+# Rust things
+spec/dummy/crates/*/mkmf.log
+spec/dummy/crates/*/target/*
+
+*.so

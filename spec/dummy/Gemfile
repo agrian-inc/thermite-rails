@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+# This file exists only for testing thermite-rails' CrateGenerator. Since this
+# is in the dummy app, normally this file wouldn't exist.
+
+gem 'test_crate', path: 'crates/test_crate'
