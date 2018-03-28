@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.y.z] - 2018-mm-dd
+## [0.2.0] - 2018-03-28
 
 ### Improvements
 
