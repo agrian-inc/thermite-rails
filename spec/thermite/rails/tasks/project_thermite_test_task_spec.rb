@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'thermite/rails/project_thermite_test_task'
+require 'thermite/rails/tasks/project_thermite_test_task'
 
-RSpec.describe Thermite::Rails::ProjectThermiteTestTask do
+RSpec.describe Thermite::Rails::Tasks::ProjectThermiteTestTask do
   subject do
     proj = Thermite::Rails::Project.new(::Rails.root.join('crates', 'test_crate').to_s)
     described_class.new(proj)

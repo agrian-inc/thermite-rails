@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Thermite::Rails::Project do
+  describe 'attrs' do
+    it { is_expected.to respond_to(:project_path) }
+    it { is_expected.to respond_to(:config) }
+  end
+
   let(:thermite_project_path) { Rails.root.join('crates', 'test_crate') }
   subject(:thermite_project) { described_class.new(thermite_project_path) }
 
