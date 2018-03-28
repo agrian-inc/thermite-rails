@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'thermite/rails/project_spec_task'
-require 'thermite/rails/project_thermite_build_task'
+require 'thermite/rails/tasks/project_spec_task'
+require 'thermite/rails/tasks/project_thermite_build_task'
 
-RSpec.describe Thermite::Rails::ProjectSpecTask do
+RSpec.describe Thermite::Rails::Tasks::ProjectSpecTask do
   let(:project_path) { Thermite::Rails::Project.new(::Rails.root.join('crates', 'test_crate').to_s) }
   subject { described_class.new(project_path) }
 

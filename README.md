@@ -57,8 +57,8 @@ Lastly, it also:
 
 ### Rake Tasks
 
-`thermite-rails` defines a task for building, cleaning, and (cargo) testing
-a) all of your projects at once, b) each of your projects separately.
+`thermite-rails` defines a task for building, cleaning, updating, and (cargo)
+testing a) all of your projects at once, b) each of your projects separately.
 
 * `thermite:build_all`, `thermite:build:[crate-name]` leverage `thermite`'s
   `thermite:build` task.
@@ -66,6 +66,8 @@ a) all of your projects at once, b) each of your projects separately.
   `thermite:clean` task.
 * `thermite:test_all`, `thermite:test:[crate-name]` leverage `thermite`'s
   `thermite:test` task.
+* `thermite:update_all`, `thermite:update:[crate-name]` are only defined in
+  `thermite-rails`. This simply runs `cargo update` for each of your crates.
 
 If you have `rspec` in your stack, you'll also get `spec:crates` and
 `spec:crates:[crate-name]`, where the latter will ensure
