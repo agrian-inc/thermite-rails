@@ -30,3 +30,5 @@ spec/dummy/crates/*/mkmf.log
 spec/dummy/crates/*/target/*
 
 *.so
+
+tags
